@@ -9,7 +9,7 @@ function scheduleNotifications() {
     const country = result.country || 'France';
     const calculationMethod = result.calculationMethod || '2'; // Default to ISNA
     const now = new Date();
-    fetch('http://api.aladhan.com/v1/calendarByCity?city=' + city + '&country=' + country + '&method=' + calculationMethod + '&month=' + (now.getMonth() + 1) + '&year=' + now.getFullYear())
+    fetch('http://api.aladhan.com/v1/calendarByCity?city=Paris&country=France&method=2&month=1&year=2024')
     .then(response => response.json())
     .then(data => {
       const dayData = data.data[now.getDate() - 1];

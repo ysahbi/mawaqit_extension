@@ -23,6 +23,5 @@ This is a Chrome extension that displays Islamic prayer times and sends notifica
 *   `popup.js`: The JavaScript file for the extension's popup.
 *   `style.css`: The CSS file for the extension's popup.
 *   `background.js`: The background script that handles notifications and alarms.
-*   `months_salat_time.json`: The JSON file containing the prayer times.
 *   `icons/`: A folder containing the extension's icons.
 *   `sounds/`: A folder containing the adhan sound.

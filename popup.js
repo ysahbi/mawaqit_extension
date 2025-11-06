@@ -59,10 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (dayData) {
         const prayerTimings = dayData.timings;
-        const displayPrayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']; // Prayers to display
+        const displayPrayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']; // Prayers to display
 
         displayPrayers.forEach((prayerName) => {
-          const prayerTime = prayerTimings[prayerName].split(' ')[0];
+          const capitalizedPrayerName = prayerName.charAt(0).toUpperCase() + prayerName.slice(1);
+          const prayerTime = prayerTimings[capitalizedPrayerName].split(' ')[0];
 
           const prayerNameDiv = document.createElement('div');
           prayerNameDiv.classList.add('prayer-name');

@@ -47,8 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  const now = new Date();
-  fetch('http://api.aladhan.com/v1/calendarByCity?city=Paris&country=France&month=' + (now.getMonth() + 1) + '&year=' + now.getFullYear())
+  chrome.storage.sync.get(['city', 'country'], (result) => {
+    const city = result.city || 'Paris';
+    const country = result.country || 'France';
+    const now = new Date();
+    fetch('http://api.aladhan.com/v1/calendarByCity?city=' + city + '&country=' + country + '&month=' + (now.getMonth() + 1) + '&year=' + now.getFullYear())
     .then(response => response.json())
     .then(data => {
       const dayData = data.data[now.getDate() - 1];

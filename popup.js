@@ -10,15 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     isha: 'العشاء'
   };
 
-  function getNextPrayer(dayData) {
+  function getNextPrayer(prayerTimings) {
     const now = new Date();
-    for (let i = 0; i < dayData.length; i++) {
-      const prayerTime = dayData[i];
+    const prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    for (let i = 0; i < prayerNames.length; i++) {
+      const prayerName = prayerNames[i];
+      const prayerTime = prayerTimings[prayerName].split(' ')[0];
       const [hours, minutes] = prayerTime.split(':');
       const prayerDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
       if (prayerDate > now) {
-        const prayerNames = ['fajr', 'shuruaq', 'dhuhr', 'asr', 'maghrib', 'isha'];
-        return { name: prayerNames[i], time: prayerDate };
+        return { name: prayerName.toLowerCase(), time: prayerDate };
       }
     }
     return null; // No more prayers for today
@@ -46,53 +47,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  fetch('months_salat_time.json')
+  const now = new Date();
+  fetch('http://api.aladhan.com/v1/calendarByCity?city=Paris&country=France&month=' + (now.getMonth() + 1) + '&year=' + now.getFullYear())
     .then(response => response.json())
     .then(data => {
-      const now = new Date();
-      const currentMonthIndex = now.getMonth(); // 0 for January, 1 for February, etc.
-      const day = now.getDate().toString(); // Convert to string to match JSON keys
+      const dayData = data.data[now.getDate() - 1];
 
-      // Assuming the JSON array is ordered by month (index 0 for January, etc.)
-      const monthData = data[currentMonthIndex];
+      if (dayData) {
+        const prayerTimings = dayData.timings;
+        const displayPrayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']; // Prayers to display
 
-      if (monthData) {
-        const dayData = monthData[day]; // Access day data directly using the day as key
-        if (dayData) {
-          const displayPrayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']; // Prayers to display
+        displayPrayers.forEach((prayerName) => {
+          const prayerTime = prayerTimings[prayerName].split(' ')[0];
 
-          displayPrayers.forEach((prayerName) => {
-            // Adjust index for displayPrayers to match the full prayers array
-            let prayerTimeIndex;
-            if (prayerName === 'fajr') prayerTimeIndex = 0;
-            else if (prayerName === 'dhuhr') prayerTimeIndex = 2;
-            else if (prayerName === 'asr') prayerTimeIndex = 3;
-            else if (prayerName === 'maghrib') prayerTimeIndex = 4;
-            else if (prayerName === 'isha') prayerTimeIndex = 5;
+          const prayerNameDiv = document.createElement('div');
+          prayerNameDiv.classList.add('prayer-name');
+          prayerNameDiv.textContent = prayerTranslations[prayerName.toLowerCase()];
 
-            const prayerTime = dayData[prayerTimeIndex];
+          const prayerTimeDiv = document.createElement('div');
+          prayerTimeDiv.classList.add('prayer-time');
+          prayerTimeDiv.textContent = prayerTime;
 
-            const prayerNameDiv = document.createElement('div');
-            prayerNameDiv.classList.add('prayer-name');
-            prayerNameDiv.textContent = prayerTranslations[prayerName];
+          prayerTimesDiv.appendChild(prayerNameDiv);
+          prayerTimesDiv.appendChild(prayerTimeDiv);
+        });
 
-            const prayerTimeDiv = document.createElement('div');
-            prayerTimeDiv.classList.add('prayer-time');
-            prayerTimeDiv.textContent = prayerTime;
-
-            prayerTimesDiv.appendChild(prayerNameDiv);
-            prayerTimesDiv.appendChild(prayerTimeDiv);
-          });
-
-          const nextPrayer = getNextPrayer(dayData);
+        const nextPrayer = getNextPrayer(prayerTimings);
+        updateCountdown(nextPrayer);
+        setInterval(() => {
+          const nextPrayer = getNextPrayer(prayerTimings);
           updateCountdown(nextPrayer);
-          setInterval(() => updateCountdown(nextPrayer), 1000);
+        }, 1000);
 
-        } else {
-          prayerTimesDiv.textContent = 'لم يتم العثور على أوقات الصلاة لهذا اليوم.';
-        }
       } else {
-        prayerTimesDiv.textContent = 'لم يتم العثور على أوقات الصلاة لهذا الشهر.';
+        prayerTimesDiv.textContent = 'لم يتم العثور على أوقات الصلاة لهذا اليوم.';
       }
     })
     .catch(error => {

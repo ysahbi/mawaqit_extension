@@ -4,38 +4,25 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 function scheduleNotifications() {
-  fetch('months_salat_time.json')
+  fetch('http://api.aladhan.com/v1/calendarByCity?city=Paris&country=France&month=' + (now.getMonth() + 1) + '&year=' + now.getFullYear())
     .then(response => response.json())
     .then(data => {
       const now = new Date();
-      const currentMonthIndex = now.getMonth(); // 0 for January, 1 for February, etc.
-      const day = now.getDate().toString(); // Convert to string to match JSON keys
+      const dayData = data.data[now.getDate() - 1];
 
-      // Assuming the JSON array is ordered by month (index 0 for January, etc.)
-      const monthData = data[currentMonthIndex];
+      if (dayData) {
+        const prayerTimings = dayData.timings;
+        const notificationPrayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']; // Prayers to schedule notifications for
 
-      if (monthData) {
-        const dayData = monthData[day]; // Access day data directly using the day as key
-        if (dayData) {
-          const notificationPrayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']; // Prayers to schedule notifications for
+        notificationPrayers.forEach((prayerName) => {
+          const prayerTime = prayerTimings[prayerName].split(' ')[0];
+          const [hours, minutes] = prayerTime.split(':');
+          const alarmTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
 
-          notificationPrayers.forEach((prayerName) => {
-            let prayerTimeIndex;
-            if (prayerName === 'fajr') prayerTimeIndex = 0;
-            else if (prayerName === 'dhuhr') prayerTimeIndex = 2;
-            else if (prayerName === 'asr') prayerTimeIndex = 3;
-            else if (prayerName === 'maghrib') prayerTimeIndex = 4;
-            else if (prayerName === 'isha') prayerTimeIndex = 5;
-
-            const prayerTime = dayData[prayerTimeIndex];
-            const [hours, minutes] = prayerTime.split(':');
-            const alarmTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
-
-            if (alarmTime > now) {
-              chrome.alarms.create(prayerName, { when: alarmTime.getTime() });
-            }
-          });
-        }
+          if (alarmTime > now) {
+            chrome.alarms.create(prayerName.toLowerCase(), { when: alarmTime.getTime() });
+          }
+        });
       }
     });
 }

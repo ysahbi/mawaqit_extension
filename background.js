@@ -49,9 +49,6 @@ chrome.alarms.onAlarm.addListener(alarm => {
     priority: 2
   });
 
-  chrome.storage.sync.get('adhanSound', (result) => {
-    const adhanSound = result.adhanSound || 'adhan.mp3';
-    const audio = new Audio('sounds/' + adhanSound);
-    audio.play();
-  });
+  const audio = new Audio('sounds/adhan.mp3');
+  audio.play();
 });

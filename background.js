@@ -12,7 +12,6 @@ function scheduleNotifications() {
     fetch('http://api.aladhan.com/v1/calendarByCity?city=' + city + '&country=' + country + '&method=' + calculationMethod + '&month=' + (now.getMonth() + 1) + '&year=' + now.getFullYear())
     .then(response => response.json())
     .then(data => {
-      const now = new Date();
       const dayData = data.data[now.getDate() - 1];
 
       if (dayData) {

@@ -2,15 +2,15 @@ document.getElementById('save').addEventListener('click', () => {
   const city = document.getElementById('city').value;
   const country = document.getElementById('country').value;
 
-  const adhanSound = document.getElementById('adhan-sound').value;
+  const calculationMethod = document.getElementById('calculation-method').value;
 
-  chrome.storage.sync.set({ city, country, adhanSound }, () => {
+  chrome.storage.sync.set({ city, country, adhanSound, calculationMethod }, () => {
     console.log('City and country saved.');
   });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  chrome.storage.sync.get(['city', 'country', 'adhanSound'], (result) => {
+  chrome.storage.sync.get(['city', 'country', 'adhanSound', 'calculationMethod'], (result) => {
     if (result.city) {
       document.getElementById('city').value = result.city;
     }
@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (result.adhanSound) {
       document.getElementById('adhan-sound').value = result.adhanSound;
+    }
+    if (result.calculationMethod) {
+      document.getElementById('calculation-method').value = result.calculationMethod;
     }
   });
 });

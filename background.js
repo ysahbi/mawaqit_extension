@@ -4,11 +4,12 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 function scheduleNotifications() {
-  chrome.storage.sync.get(['city', 'country'], (result) => {
+  chrome.storage.sync.get(['city', 'country', 'calculationMethod'], (result) => {
     const city = result.city || 'Paris';
     const country = result.country || 'France';
+    const calculationMethod = result.calculationMethod || '2'; // Default to ISNA
     const now = new Date();
-    fetch('http://api.aladhan.com/v1/calendarByCity?city=' + city + '&country=' + country + '&month=' + (now.getMonth() + 1) + '&year=' + now.getFullYear())
+    fetch('http://api.aladhan.com/v1/calendarByCity?city=' + city + '&country=' + country + '&method=' + calculationMethod + '&month=' + (now.getMonth() + 1) + '&year=' + now.getFullYear())
     .then(response => response.json())
     .then(data => {
       const now = new Date();

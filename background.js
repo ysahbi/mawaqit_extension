@@ -16,10 +16,11 @@ function scheduleNotifications() {
 
       if (dayData) {
         const prayerTimings = dayData.timings;
-        const notificationPrayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']; // Prayers to schedule notifications for
+        const notificationPrayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']; // Prayers to schedule notifications for
 
         notificationPrayers.forEach((prayerName) => {
-          const prayerTime = prayerTimings[prayerName].split(' ')[0];
+          const capitalizedPrayerName = prayerName.charAt(0).toUpperCase() + prayerName.slice(1);
+          const prayerTime = prayerTimings[capitalizedPrayerName].split(' ')[0];
           const [hours, minutes] = prayerTime.split(':');
           const alarmTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
 

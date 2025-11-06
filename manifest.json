@@ -8,6 +8,9 @@
     "storage",
     "alarms"
   ],
+  "host_permissions": [
+    "http://api.aladhan.com/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },

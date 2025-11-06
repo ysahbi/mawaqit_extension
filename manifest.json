@@ -1,24 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "Mawaqit Prayer Notifications",
-  "version": "0.1.0",
-  "description": "Shows Brave notifications at prayer times fetched from Mawaqit for a selected mosque.",
+  "name": "Mawaqit (أوقات الصلاة)",
+  "version": "1.0",
+  "description": "يعرض أوقات الصلاة الإسلامية ويرسل إشعارات.",
   "permissions": [
-    "alarms",
     "notifications",
-    "storage"
-  ],
-  "host_permissions": [
-    "https://api.aladhan.com/*"
+    "storage",
+    "alarms"
   ],
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
-  "options_page": "options.html",
   "action": {
-    "default_title": "Mawaqit Prayer Notifications",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon128.svg",
+      "48": "icons/icon128.svg",
+      "128": "icons/icon128.svg"
+    }
   }
 }
-

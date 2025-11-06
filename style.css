@@ -1,0 +1,48 @@
+body {
+    font-family: 'Tajawal', sans-serif;
+    width: 200px; /* Reduced width */
+    padding: 10px 5px 10px 10px; /* Adjusted padding: top right bottom left */
+    background-color: #fdfaf6; /* Light, off-white background */
+    color: #003366; /* Dark, desaturated blue for text */
+}
+
+h1 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #006a4e; /* Deep, calming green for the header */
+}
+
+#prayer-times {
+    display: grid;
+    grid-template-columns: auto auto; /* Both columns fit content */
+    gap: 10px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-items: center; /* Added for vertical alignment */
+    border: 1px solid #d4af37; /* Subtle gold border */
+}
+
+.prayer-name {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.5; /* Added for consistent vertical alignment */
+    text-align: right; /* Added for RTL alignment */
+    color: #003366; /* Dark, desaturated blue for text */
+}
+
+.prayer-time {
+    font-size: 18px;
+    text-align: right; /* Changed to right for RTL */
+    line-height: 1.5; /* Added for consistent vertical alignment */
+    color: #003366; /* Dark, desaturated blue for text */
+}
+
+#next-prayer-countdown {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #888;
+}

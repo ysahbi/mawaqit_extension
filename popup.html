@@ -1,26 +1,17 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Today's Prayer Times</title>
-    <style>
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 12px; min-width: 260px; }
-      h3 { margin: 0 0 8px 0; font-size: 16px; }
-      .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #eee; }
-      .row:last-child { border-bottom: none; }
-      .label { font-weight: 600; }
-      #error { color: #b00020; }
-      small { color: #666; }
-    </style>
-  </head>
-  <body>
-    <h3>Today's Prayer Times</h3>
-    <div id="content"></div>
-    <div id="error"></div>
-    <small id="source"></small>
-    <script src="popup.js" type="module"></script>
-  </body>
-  </html>
-
-
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Mawaqit</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="next-prayer-countdown"></div>
+  <h1>أوقات الصلاة</h1>
+  <div id="prayer-times"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
